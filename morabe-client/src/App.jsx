@@ -1,22 +1,39 @@
-import { useState } from "react";
-import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+// HomePage Structure
+import Layout from "./components/Layout";
+import ArticlePage from "./Pages/ArticlePage";
+import HomePage from "./Pages/HomePage";
+import AboutPage from "./Pages/AboutPage";
+
+const routes = [
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <HomePage />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
+      },
+      {
+        path: "articles",
+        element: <ArticlePage />,
+      },
+    ],
+  },
+];
+
+const router = createBrowserRouter(routes);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to My React App !</h1>
-        <p>
-          Name: Vince Elroi Morabe
-          <br />
-          Section: INF 235
-          <br />
-          <a href="https://github.com/bitbyvince/Morabe-WebProg.git">
-            Github Link:{" "}
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
 
