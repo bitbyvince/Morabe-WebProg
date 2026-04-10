@@ -1,4 +1,4 @@
-import Button from "../components/button";
+import Button from "../components/Button";
 
 // Enhancement 2: Home page content writeups and image section
 const HomePage = () => {

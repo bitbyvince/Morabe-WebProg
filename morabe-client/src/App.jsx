@@ -5,22 +5,30 @@ import Layout from "./components/Layout";
 import ArticlePage from "./Pages/ArticlePage";
 import HomePage from "./Pages/HomePage";
 import AboutPage from "./Pages/AboutPage";
+import ArticleListPage from "./Pages/ArticleListPage";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 const routes = [
   {
     path: "/",
     element: <Layout />,
+    // Error element
+    errorElement: <NotFoundPage />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <HomePage />,
       },
       {
-        path: "about",
+        path: "/about",
         element: <AboutPage />,
       },
       {
-        path: "articles",
+        path: "/articles",
+        element: <ArticleListPage />,
+      },
+      {
+        path: "/articles/:name",
         element: <ArticlePage />,
       },
     ],
