@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
@@ -6,9 +7,11 @@ const Footer = () => {
       <div className="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-xl space-y-4">
           <div className="inline-flex items-center gap-3 rounded-3xl bg-zinc-900 px-4 py-3 text-white shadow-lg shadow-zinc-900/10">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-sm font-black text-zinc-950">
-              N
-            </div>
+            <img
+              src={logo}
+              alt="NexaFrame Logo"
+              className="h-9 w-9 object-contain"
+            />
             <div>
               <p className="font-semibold">NexaFrame</p>
               <p className="text-sm text-zinc-300">
