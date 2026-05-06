@@ -1,4 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const theme = createTheme();
 
 // HomePage Structure
 import Layout from "./layouts/Layout";
@@ -8,8 +12,13 @@ import AboutPage from "./pages/LandingPages/AboutPage";
 import ArticleListPage from "./pages/LandingPages/ArticleListPage";
 
 import AuthLayout from "./layouts/AuthLayout";
+import DashLayout from "./layouts/DashLayout";
 import SignInPage from "./pages/AuthPages/SignInPage";
 import SignUpPage from "./pages/AuthPages/SignUpPage";
+
+import DashboardPage from "./pages/DashboardPages/DashboardPage";
+import ReportsPage from "./pages/DashboardPages/ReportsPage";
+import UserPage from "./pages/DashboardPages/UserPage";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -53,15 +62,35 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <DashLayout />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: "",
+        element: <DashboardPage />,
+      },
+      {
+        path: "reports",
+        element: <ReportsPage />,
+      },
+      {
+        path: "users",
+        element: <UserPage />,
+      },
+    ],
+  },
 ];
 
 const router = createBrowserRouter(routes);
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <RouterProvider router={router} />
-    </>
+    </ThemeProvider>
   );
 }
 

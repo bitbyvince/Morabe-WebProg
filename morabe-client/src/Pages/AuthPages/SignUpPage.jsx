@@ -27,7 +27,7 @@ const SignUpPage = () => {
           <input
             id="first-name"
             type="text"
-            placeholder="John"
+            placeholder="Juan"
             autoComplete="given-name"
             className={inputClasses}
           />
@@ -42,7 +42,7 @@ const SignUpPage = () => {
           <input
             id="last-name"
             type="text"
-            placeholder="Doe"
+            placeholder="Dela Cruz"
             autoComplete="family-name"
             className={inputClasses}
           />
