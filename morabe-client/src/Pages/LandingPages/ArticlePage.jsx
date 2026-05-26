@@ -23,9 +23,7 @@ function ArticlePage() {
     );
   }
 
-  if (article.name === "branding-through-wireframes") {
-    throw new Error("Article not found");
-  }
+  // no forced errors here — render the article if found
 
   return (
     <div className="flex w-full flex-col gap-6">

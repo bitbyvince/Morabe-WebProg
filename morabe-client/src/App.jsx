@@ -13,12 +13,13 @@ import ArticleListPage from "./pages/LandingPages/ArticleListPage";
 
 import AuthLayout from "./layouts/AuthLayout";
 import DashLayout from "./layouts/DashLayout";
-import SignInPage from "./pages/AuthPages/SignInPage";
+import SignInPage from "./pages/AuthPages/Login";
 import SignUpPage from "./pages/AuthPages/SignUpPage";
 
 import DashboardPage from "./pages/DashboardPages/DashboardPage";
 import ReportsPage from "./pages/DashboardPages/ReportsPage";
 import UserPage from "./pages/DashboardPages/UserPage";
+import DashArticleListPage from "./pages/DashboardPages/DashArticleListPage";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -78,6 +79,10 @@ const routes = [
       {
         path: "users",
         element: <UserPage />,
+      },
+      {
+        path: "articles",
+        element: <DashArticleListPage />,
       },
     ],
   },

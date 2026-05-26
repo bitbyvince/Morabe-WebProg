@@ -41,6 +41,12 @@ const dashboardNavItems = [
     icon: AssessmentIcon,
   },
   {
+    label: "Articles",
+    title: "Articles",
+    to: "/dashboard/articles",
+    icon: ArticleIcon,
+  },
+  {
     label: "Users",
     title: "Users",
     to: "/dashboard/users",
@@ -170,8 +176,16 @@ const DashLayout = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("type");
     navigate("/");
   };
+
+  const userType = localStorage.getItem("type") || "";
+  const visibleNavItems = dashboardNavItems.filter(
+    (item) => item.to !== "/dashboard/users" || userType === "admin",
+  );
 
   return (
     <>
@@ -229,34 +243,41 @@ const DashLayout = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            {dashboardNavItems.map(({ label, to, icon: Icon }) => (
-              <ListItem key={to} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  component={Link}
-                  to={to}
-                  selected={location.pathname === to}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
+            {visibleNavItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <ListItem
+                  key={item.to}
+                  disablePadding
+                  sx={{ display: "block" }}
                 >
-                  <ListItemIcon
+                  <ListItemButton
+                    component={Link}
+                    to={item.to}
+                    selected={location.pathname === item.to}
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={label}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.label}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
           </List>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

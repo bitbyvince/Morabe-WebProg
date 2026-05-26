@@ -1,8 +1,37 @@
+import { useEffect, useState } from "react";
 import Button from "../../components/Button.jsx";
 import ArticleList from "../../components/ArticleList.jsx";
-import articles from "../../data/article-content.js";
+import { fetchArticles } from "../../services/ArticleService.js";
 
 const ArticleListPage = () => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+
+    const loadArticles = async () => {
+      try {
+        const response = await fetchArticles();
+        if (!active) return;
+        // API returns { articles: [...] } so use that array
+        setArticles((response.data && response.data.articles) || []);
+      } catch (err) {
+        console.error("Failed to load articles:", err);
+        if (!active) return;
+        setError("Unable to load articles. Please try again later.");
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    loadArticles();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="flex w-full flex-col gap-6">
       <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
@@ -29,7 +58,13 @@ const ArticleListPage = () => {
           </h2>
         </div>
 
-        <ArticleList articles={articles} />
+        {loading ? (
+          <p className="text-sm text-zinc-600">Loading articles...</p>
+        ) : error ? (
+          <p className="text-sm text-red-600">{error}</p>
+        ) : (
+          <ArticleList articles={articles} />
+        )}
       </section>
     </div>
   );
