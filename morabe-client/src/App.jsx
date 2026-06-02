@@ -13,8 +13,8 @@ import ArticleListPage from "./Pages/LandingPages/ArticleListPage";
 
 import AuthLayout from "./layouts/AuthLayout";
 import DashLayout from "./layouts/DashLayout";
-import SignInPage from "./pages/AuthPages/Login";
-import SignUpPage from "./pages/AuthPages/SignUpPage";
+import SignInPage from "./Pages/AuthPages/Login";
+import SignUpPage from "./Pages/AuthPages/SignUpPage";
 
 import DashboardPage from "./Pages/DashboardPages/DashboardPage";
 import ReportsPage from "./Pages/DashboardPages/ReportsPage"; 
