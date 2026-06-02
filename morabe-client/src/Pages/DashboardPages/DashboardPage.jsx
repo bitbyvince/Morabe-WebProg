@@ -35,7 +35,9 @@ function DashboardPage() {
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="rounded-lg border border-zinc-200 bg-white p-6">
           <div className="text-sm font-medium text-zinc-600">Total Users</div>
-          <div className="mt-2 text-3xl font-bold text-zinc-900">{rows.length}</div>
+          <div className="mt-2 text-3xl font-bold text-zinc-900">
+            {rows.length}
+          </div>
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-6">
           <div className="text-sm font-medium text-zinc-600">Average Age</div>
@@ -95,6 +97,21 @@ function DashboardPage() {
             <div className="text-2xl font-bold text-zinc-900">2.3GB</div>
             <p className="text-xs text-zinc-600">Memory Usage</p>
           </div>
+        </div>
+      </div>
+
+      {/* Location Map */}
+      <div className="rounded-lg border border-zinc-200 bg-white p-6">
+        <h2 className="text-lg font-semibold text-zinc-900">Location</h2>
+        <p className="mt-2 text-sm text-zinc-600">National University Manila</p>
+        <div className="mt-4 overflow-hidden rounded-xl border border-zinc-200">
+          <iframe
+            title="National University Manila Location"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=120.9910%2C14.6000%2C121.0025%2C14.6085&layer=mapnik&marker=14.604167%2C120.994167"
+            className="h-80 w-full border-0"
+            loading="lazy"
+            aria-label="Map showing National University Manila location"
+          />
         </div>
       </div>
     </div>

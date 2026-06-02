@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -58,6 +58,9 @@ const UsersPage = () => {
     type: "viewer",
     isActive: true,
   });
+  const [searchText, setSearchText] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
 
   const loadUsers = async () => {
     try {
@@ -135,6 +138,34 @@ const UsersPage = () => {
     }
   };
 
+  const filteredUsers = useMemo(() => {
+    return users.filter((user) => {
+      const search = searchText.trim().toLowerCase();
+      const matchesSearch =
+        !search ||
+        [
+          user.firstName,
+          user.lastName,
+          user.email,
+          user.username,
+          user.contactNumber,
+          user.address,
+          user.type,
+        ]
+          .filter(Boolean)
+          .some((value) => value.toString().toLowerCase().includes(search));
+
+      const matchesType =
+        filterType === "all" || user.type?.toLowerCase() === filterType;
+
+      const matchesStatus =
+        filterStatus === "all" ||
+        (filterStatus === "active" ? user.isActive : !user.isActive);
+
+      return matchesSearch && matchesType && matchesStatus;
+    });
+  }, [users, searchText, filterType, filterStatus]);
+
   const columns = [
     {
       field: "name",
@@ -181,10 +212,12 @@ const UsersPage = () => {
       <Stack
         direction="row"
         sx={{
-          marginBottom: 5,
+          marginBottom: 3,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          flexWrap: "wrap",
+          gap: 2,
         }}
       >
         <Typography variant="h2" fontWeight="bold">
@@ -201,9 +234,54 @@ const UsersPage = () => {
         </Button>
       </Stack>
 
+      <Box sx={{ mb: 3 }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          alignItems="center"
+        >
+          <TextField
+            fullWidth
+            label="Search users"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            variant="outlined"
+          />
+
+          <FormControl sx={{ minWidth: 160 }} variant="outlined">
+            <InputLabel id="filter-type-label">Type</InputLabel>
+            <Select
+              labelId="filter-type-label"
+              label="Type"
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+            >
+              <MenuItem value="all">All Types</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="editor">Editor</MenuItem>
+              <MenuItem value="viewer">Viewer</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl sx={{ minWidth: 160 }} variant="outlined">
+            <InputLabel id="filter-status-label">Status</InputLabel>
+            <Select
+              labelId="filter-status-label"
+              label="Status"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <MenuItem value="all">All Statuses</MenuItem>
+              <MenuItem value="active">Active</MenuItem>
+              <MenuItem value="inactive">Inactive</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
+      </Box>
+
       <Box sx={{ height: 500, width: "100%", mb: 5 }}>
         <DataGrid
-          rows={users}
+          rows={filteredUsers}
           columns={columns}
           getRowId={(row) => row._id}
           loading={loading}
