@@ -18,11 +18,13 @@ const createUser = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const username = req.body.username || req.body.email || "";
+    const email = req.body.email?.trim().toLowerCase();
+    const username = req.body.username || email || "";
     const type = req.body.type || "viewer";
 
     const user = await User.create({
       ...req.body,
+      email,
       password: hashedPassword,
       username,
       type,
@@ -73,7 +75,7 @@ const deleteUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email?.trim().toLowerCase() });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -92,6 +94,10 @@ const loginUser = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: "JWT_SECRET is not configured" });
     }
 
     const token = jwt.sign(

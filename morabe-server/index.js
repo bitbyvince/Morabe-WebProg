@@ -13,28 +13,25 @@ const app = express();
 // Database Connection
 connectDB();
 
-app.use(express.json());
-
 //Middleware
+app.use(express.json());
 app.use(jsonParser);
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
 
 // vercel options
 const corsOptions = {
-  origin: "*", // Allow all origins
-  credentials: true, // Allow credentials
+  origin: process.env.CLIENT_URL || "*",
+  credentials: true,
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  preflightContinue: false,
-  optionsSuccessStatus: 204, // For legacy browser support
+  optionsSuccessStatus: 204,
 };
-app.options("./:any", cors(corsOptions)); // Enable pre-flight for all routes
+app.options(/.*/, cors(corsOptions));
 app.use(cors(corsOptions));
 
 // Curb Cores Error by adding a header here
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL || "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
@@ -47,6 +44,10 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.get("/", (req, res) => {
+  res.json({ message: "Morabe API is running" });
+});
+
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
 

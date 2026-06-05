@@ -6,6 +6,7 @@ const API = axios.create({
 });
 
 export const fetchArticles = () => API.get("/");
+export const fetchArticleByName = (name) => API.get(`/name/${name}`);
 export const createArticle = (article) => API.post("/", article);
 export const updateArticle = (id, article) => API.put(`/${id}`, article);
 export const deleteArticle = (id) => API.delete(`/${id}`);

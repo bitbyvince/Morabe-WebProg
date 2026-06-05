@@ -19,6 +19,16 @@ const getArticle = async (req, res) => {
   }
 };
 
+const getArticleByName = async (req, res) => {
+  try {
+    const article = await Article.findOne({ name: req.params.name });
+    if (!article) return res.status(404).json({ message: "Article not found" });
+    res.json(article);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const createArticle = async (req, res) => {
   try {
     const { name, title, content, image, status } = req.body;
@@ -86,6 +96,7 @@ const deleteArticle = async (req, res) => {
 module.exports = {
   getArticles,
   getArticle,
+  getArticleByName,
   createArticle,
   updateArticle,
   deleteArticle,
