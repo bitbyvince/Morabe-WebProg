@@ -29,7 +29,7 @@ const corsOptions = {
   preflightContinue: false,
   optionsSuccessStatus: 204, // For legacy browser support
 };
-app.options("*", cors(corsOptions)); // Enable pre-flight for all routes
+app.options("(.*)", cors(corsOptions)); // Enable pre-flight for all routes
 app.use(cors(corsOptions));
 
 // Curb Cores Error by adding a header here
