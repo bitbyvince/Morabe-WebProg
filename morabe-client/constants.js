@@ -1,4 +1,4 @@
-const DEFAULT_API_URL = "http://localhost:5000/api";
+const DEFAULT_API_URL = "http://localhost:8000/api";
 
 const normalizeApiUrl = (url) => {
   const apiUrl = (url || DEFAULT_API_URL).trim().replace(/\/+$/, "");
